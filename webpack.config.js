@@ -9,7 +9,8 @@ module.exports = {
         directory: path.join(__dirname),
       },
     ],
-  },
+    },
+  devtool: 'inline-source-map',
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
