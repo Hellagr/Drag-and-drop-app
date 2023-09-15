@@ -1,5 +1,4 @@
-
-    // component base class
+// component base class
 export abstract class Component<T extends HTMLElement, U extends HTMLElement> {
   templateElement: HTMLTemplateElement;
   hostElement: T;
