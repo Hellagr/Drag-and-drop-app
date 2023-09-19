@@ -7,10 +7,10 @@ import { ProjectStatus } from "../models/project-model";
 import { ProjectItem } from "./project-item";
 
     // ProjectList Class
-export class ProjectList extends Component<HTMLDivElement, HTMLElement> implements DragTarget {
+export class ProjectListFinished extends Component<HTMLDivElement, HTMLElement> implements DragTarget {
   assignedProjects: Project[];
 
-  constructor(private type: 'active' | 'finished') {
+  constructor(private type: 'finished') {
     super('project-list', 'app', false, `${type}-projects`);
     this.assignedProjects = [];
 
@@ -30,7 +30,7 @@ export class ProjectList extends Component<HTMLDivElement, HTMLElement> implemen
   @autobind
   dropHandler(event: DragEvent){
     const prjId = event.dataTransfer!.getData('text/plain');
-    projectState.moveProject(prjId, this.type === 'active' ? ProjectStatus.Active : ProjectStatus.Finished);
+    projectState.moveProject(prjId, this.type === 'finished' ? ProjectStatus.Active : ProjectStatus.Finished);
   }
 
   @autobind
@@ -46,17 +46,16 @@ export class ProjectList extends Component<HTMLDivElement, HTMLElement> implemen
 
    projectState.addListener((projects: Project[]) => {
       const relevantProjects = projects.filter(prj => {
-        if (this.type === 'active') {
+        if (this.type === 'finished') {
           return prj.status === ProjectStatus.Active;
-        } else {
-          return prj.status === ProjectStatus.Finished;
-        }
+          };
       });
      this.assignedProjects = relevantProjects;
      this.renderProjects();
    });
   };
 
+  //Active and Finished projects rendering
   renderContent() {
     const listId = `${this.type}-projects-list`;
     this.element.querySelector('ul')!.id = listId;
